@@ -14,21 +14,25 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
-class Notes: Screen {
+class Notes : Screen {
     @Composable
     override fun Content() {
 
-        val note = Random.nextInt(60, 66)
+        val note = Random.nextInt(60, 65)
         val navigator = LocalNavigator.currentOrThrow
 
-        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
             Text("Choose the correct musical note", fontSize = 20.sp)
-            for(i in 0..4) {
-                if(note - 60 == i + 1) {
+            for (i in 0..4) {
+                if (note - 60 == i + 1) {
                     println(i + 1)
                 }
                 Button({
-                    if(note - 60 == i + 1) {
+                    if (note - 60 == i + 1) {
                         navigator.push(Colors())
                     } else {
                         navigator.push(Lose("Guess you're tone deaf, I'll keep that in mind"))
@@ -40,7 +44,14 @@ class Notes: Screen {
         }
         LaunchedEffect(Unit) {
             delay(500)
-            playNote(note)
+            val noteMap = hashMapOf(
+                60 to 60,
+                61 to 62,
+                62 to 64,
+                63 to 65,
+                64 to 67,
+            )
+            playNote(noteMap[note]!!)
         }
     }
 }
